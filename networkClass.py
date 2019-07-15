@@ -1,5 +1,5 @@
 import torch.nn as nn
-
+import torch.nn.functional as F
 
 class Network(nn.Module):
     def __init__(self):
@@ -13,4 +13,31 @@ class Network(nn.Module):
 
     def forward(self, t):
         # implement the forward pass
+
+        # (1) input layer
+        t = t
+
+        # (2) hidden conv layer
+        t = self.conv1(t)
+        t = F.relu(t)
+        t = F.max_pool2d(t, kernel_size=2, stride=2)
+
+        # (3) hidden conv layer
+        t = self.conv2(t)
+        t = F.relu(t)
+        t = F.max_pool2d(t, kernel_size=2, stride=2)
+
+        # (4) hidden linear layer
+        t = t.reshape(-1, 12 * 4 * 4)
+        t = self.fc1(t)
+        t = F.relu(t)
+
+        # (5) hidden linear layer
+        t = self.fc2(t)
+        t = F.relu(t)
+
+        # (6) output layer
+        t = self.out(t)
+        # t = F.softmax(t, dim=1)
+
         return t
