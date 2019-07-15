@@ -1,11 +1,8 @@
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
-import  torch.optim as optim
+import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
-import numpy as np
-import matplotlib.pyplot as plt
 import networkClass
 
 torch.set_printoptions(linewidth=120)
@@ -31,7 +28,7 @@ train_set = torchvision.datasets.FashionMNIST(
 # print(train_set.targets)
 # print(train_set.targets.bincount())
 
-network = networkClass.Network()
+#network = networkClass.Network()
 
 # sample = next(iter(train_set))
 # image,label = sample
@@ -77,14 +74,16 @@ network = networkClass.Network()
 # print(labels)
 # plt.show()
 
-
+network = networkClass.Network()
+torch.backends.cudnn.benchmark=True
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=100)
 optimizer = optim.Adam(network.parameters(), lr=0.01)
 
-total_loss = 0
-total_correct = 0
 
-for epoch in range(5):
+for epoch in range(10):
+
+    total_loss = 0
+    total_correct = 0
 
     for batch in train_loader:  # Get Batch
         images, labels = batch
@@ -92,7 +91,7 @@ for epoch in range(5):
         preds = network(images)  # Pass Batch
         loss = F.cross_entropy(preds, labels)  # Calculate Loss
 
-        print('loss:', loss.item())
+        #print('loss:', loss.item())
         #print(get_num_correct(preds, labels))
 
         optimizer.zero_grad()
@@ -108,4 +107,4 @@ for epoch in range(5):
         "loss:", total_loss
     )
 
-    print(total_correct / len(train_set))
+print(total_correct / len(train_set))
