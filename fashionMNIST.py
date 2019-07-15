@@ -84,26 +84,28 @@ optimizer = optim.Adam(network.parameters(), lr=0.01)
 total_loss = 0
 total_correct = 0
 
-for batch in train_loader:  # Get Batch
-    images, labels = batch
+for epoch in range(5):
 
-    preds = network(images)  # Pass Batch
-    loss = F.cross_entropy(preds, labels)  # Calculate Loss
+    for batch in train_loader:  # Get Batch
+        images, labels = batch
 
-    print('loss:', loss.item())
-    #print(get_num_correct(preds, labels))
+        preds = network(images)  # Pass Batch
+        loss = F.cross_entropy(preds, labels)  # Calculate Loss
 
-    optimizer.zero_grad()
-    loss.backward()  # Calculate Gradients
-    optimizer.step()  # Update Weights
+        print('loss:', loss.item())
+        #print(get_num_correct(preds, labels))
 
-    total_loss += loss.item()
-    total_correct += get_num_correct(preds, labels)
+        optimizer.zero_grad()
+        loss.backward()  # Calculate Gradients
+        optimizer.step()  # Update Weights
 
-print(
-    "epoch:", 0,
-    "total_correct:", total_correct,
-    "loss:", total_loss
-)
+        total_loss += loss.item()
+        total_correct += get_num_correct(preds, labels)
 
-print(total_correct / len(train_set))
+    print(
+        "epoch:", epoch,
+        "total_correct:", total_correct,
+        "loss:", total_loss
+    )
+
+    print(total_correct / len(train_set))
