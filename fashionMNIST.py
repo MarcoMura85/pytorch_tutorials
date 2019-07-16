@@ -1,6 +1,9 @@
 import torch
 import torch.nn.functional as F
 import torch.optim as optim
+
+from torch.utils.tensorboard import SummaryWriter
+
 import torchvision
 import torchvision.transforms as transforms
 import networkClass
@@ -20,67 +23,21 @@ train_set = torchvision.datasets.FashionMNIST(
     ])
 )
 
-# train_loader = torch.utils.data.DataLoader(
-#     train_set
-#     , batch_size=100
-# )
-# print(len(train_set))
-# print(train_set.targets)
-# print(train_set.targets.bincount())
-
-#network = networkClass.Network()
-
-# sample = next(iter(train_set))
-# image,label = sample
-# #print(label)
-# image.unsqueeze(0).shape #transforming it in a batch
-#
-# pred = network(image.unsqueeze(0))
-#
-# print(pred.argmax(dim=1))
-# print(F.softmax(pred, dim=1))
-
-# plt.imshow(image.squeeze(), cmap='gray')
-# print('label:', label)
-# plt.show()
-
-# optimizer = optim.Adam(network.parameters(), lr=0.01)
-#
-# batch = next(iter(train_loader))
-# images, labels = batch
-#
-# preds = network(images)
-# loss = F.cross_entropy(preds, labels) # Calculating the loss
-
-# print(preds)
-# print(preds.argmax(dim=1))
-# print(preds.argmax(dim=1).eq(labels))
-
-# loss.backward() # Calculate Gradients
-# optimizer.step() # Update Weights
-#
-# print('loss1:', loss.item())
-# print(get_num_correct(preds, labels))
-#
-# preds = network(images)
-# loss = F.cross_entropy(preds, labels)
-# print('loss2:', loss.item())
-# print(get_num_correct(preds, labels))
-
-#
-# grid = torchvision.utils.make_grid(images, nrow=10)
-# plt.figure(figsize=(15, 15))
-# plt.imshow(np.transpose(grid, (1, 2, 0)))
-# print(labels)
-# plt.show()
-
 network = networkClass.Network()
 torch.backends.cudnn.benchmark=True
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=100)
 optimizer = optim.Adam(network.parameters(), lr=0.01)
 
+images, labels = next(iter(train_loader))
+grid = torchvision.utils.make_grid(images)
+
+tb = SummaryWriter()
+tb.add_image('images', grid)
+tb.add_graph(network, images)
 
 for epoch in range(10):
+
+    print("starting epoch:", epoch)
 
     total_loss = 0
     total_correct = 0
@@ -101,6 +58,18 @@ for epoch in range(10):
         total_loss += loss.item()
         total_correct += get_num_correct(preds, labels)
 
+    tb.add_scalar('Loss', total_loss, epoch)
+    tb.add_scalar('Number Correct', total_correct, epoch)
+    tb.add_scalar('Accuracy', total_correct / len(train_set), epoch)
+
+    tb.add_histogram('conv1.bias', network.conv1.bias, epoch)
+    tb.add_histogram('conv1.weight', network.conv1.weight, epoch)
+    tb.add_histogram(
+        'conv1.weight.grad'
+        , network.conv1.weight.grad
+        , epoch
+    )
+
     print(
         "epoch:", epoch,
         "total_correct:", total_correct,
@@ -108,3 +77,4 @@ for epoch in range(10):
     )
 
 print(total_correct / len(train_set))
+tb.close()
