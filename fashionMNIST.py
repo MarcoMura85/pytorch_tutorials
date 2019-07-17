@@ -36,6 +36,8 @@ param_values = [v for v in parameters.values()]
 
 #device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+#JVBSDBVSI
+
 
 for lr, batch_size, shuffle in product(*param_values):
 
