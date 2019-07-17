@@ -24,6 +24,15 @@ train_set = torchvision.datasets.FashionMNIST(
     ])
 )
 
+batch_size_list = [100, 1000, 10000]
+lr_list = [.01, .001, .0001, .00001]
+
+parameters = dict(
+    lr=[.01, .001]
+    , batch_size=[100, 1000]
+    , shuffle=[True, False]
+)
+
 network = networkClass.Network()
 torch.backends.cudnn.benchmark=True
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=100)
