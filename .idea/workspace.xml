@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fashionMNIST.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-648">
-              <caret line="9" column="19" lean-forward="true" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+            <state relative-caret-position="237">
+              <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -65,6 +65,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="MarcoMura85 &lt;marcomura85@gmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -203,12 +208,25 @@
       <option name="project" value="LOCAL" />
       <updated>1563271172186</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="generalization graph for tensorboard">
+      <created>1563353943566</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1563353943566</updated>
+    </task>
+    <task id="LOCAL-00007" summary="hyperparameters optimization">
+      <created>1563354121858</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1563354121858</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1927" y="859" width="1550" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24966975" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -221,9 +239,9 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32931727" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.43373495" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.43373495" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32931727" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.32931727" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -242,7 +260,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="building it" />
     <MESSAGE value="adding tensorboard support" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding tensorboard support" />
+    <MESSAGE value="generalization graph for tensorboard" />
+    <MESSAGE value="hyperparameters optimization" />
+    <option name="LAST_COMMIT_MESSAGE" value="hyperparameters optimization" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/../AI-Tests/rectClass.py">
@@ -288,8 +308,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/fashionMNIST.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-648">
-          <caret line="9" column="19" lean-forward="true" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+        <state relative-caret-position="237">
+          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
