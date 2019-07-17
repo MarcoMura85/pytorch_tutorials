@@ -3,6 +3,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 
 from torch.utils.tensorboard import SummaryWriter
+from itertools import product
 
 import torchvision
 import torchvision.transforms as transforms
@@ -62,13 +63,9 @@ for epoch in range(10):
     tb.add_scalar('Number Correct', total_correct, epoch)
     tb.add_scalar('Accuracy', total_correct / len(train_set), epoch)
 
-    tb.add_histogram('conv1.bias', network.conv1.bias, epoch)
-    tb.add_histogram('conv1.weight', network.conv1.weight, epoch)
-    tb.add_histogram(
-        'conv1.weight.grad'
-        , network.conv1.weight.grad
-        , epoch
-    )
+    for name, param in network.named_parameters():
+        tb.add_histogram(name, param, epoch)
+        tb.add_histogram(f'{name}.grad', param.grad, epoch)
 
     print(
         "epoch:", epoch,
