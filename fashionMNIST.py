@@ -90,4 +90,4 @@ for lr, batch_size, shuffle in product(*param_values):
         )
 
     print(total_correct / len(train_set))
-# tb.close()
+tb.close()
