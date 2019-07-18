@@ -1,7 +1,8 @@
 import torch
-import torch.nn.functional as F
 import torchvision
 import torchvision.transforms as transforms
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
 import networkClass
 import utils as util
 
@@ -33,3 +34,21 @@ test_preds = util.get_all_preds(network, prediction_loader)
 preds_correct = util.get_num_correct(test_preds, test_set.targets)
 
 util.print_training_results('N/A', preds_correct, 'N/A', len(test_loader))
+
+cm = confusion_matrix(test_set.targets, test_preds.argmax(dim=1))
+
+names = (
+    'T-shirt/top'
+    ,'Trouser'
+    ,'Pullover'
+    ,'Dress'
+    ,'Coat'
+    ,'Sandal'
+    ,'Shirt'
+    ,'Sneaker'
+    ,'Bag'
+    ,'Ankle boot'
+)
+
+plt.figure(figsize=(10, 10))
+util.plot_confusion_matrix(cm, names)
