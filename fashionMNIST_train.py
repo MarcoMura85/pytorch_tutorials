@@ -8,31 +8,32 @@ from itertools import product
 import torchvision
 import torchvision.transforms as transforms
 import networkClass
+import utils as util
 
 torch.set_printoptions(linewidth=120)
 torch.set_grad_enabled(True)
 
-def get_num_correct(preds, labels):
-    return preds.argmax(dim=1).eq(labels).sum().item()
-
 train_set = torchvision.datasets.FashionMNIST(
     root='./data'
-    ,train=True
-    ,download=True
-    ,transform=transforms.Compose([
+    , train=True
+    , download=True
+    , transform=transforms.Compose([
         transforms.ToTensor()
     ])
 )
 
-batch_size_list = [100, 1000, 10000]
-lr_list = [.01, .001, .0001, .00001]
+# batch_size_list = [10, 100, 1000]
+# lr_list = [.01, .001]
+# shuffle_list = [True, False]
 
-parameters = dict(
-    lr=[.01, .001]
-    , batch_size=[10, 100, 1000]
-    , shuffle=[True, False]
-)
-param_values = [v for v in parameters.values()]
+use_tensorboard = False
+
+batch_size_list = [10]
+lr_list = [.001]
+shuffle_list = [True]
+epoch_length = 10
+
+param_values = util.get_hyperparams_values(lr_list, batch_size_list, shuffle_list)
 
 #device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -48,11 +49,12 @@ for lr, batch_size, shuffle in product(*param_values):
     grid = torchvision.utils.make_grid(images)
 
     comment = f' batch_size={batch_size} lr={lr} shuffle={shuffle}'
-    tb = SummaryWriter(comment=comment)
-    tb.add_image('images', grid)
-    tb.add_graph(network, images)
+    if use_tensorboard:
+        tb = SummaryWriter(comment=comment)
+        tb.add_image('images', grid)
+        tb.add_graph(network, images)
 
-    for epoch in range(10):
+    for epoch in range(epoch_length):
 
         print("starting epoch:", epoch)
 
@@ -73,21 +75,15 @@ for lr, batch_size, shuffle in product(*param_values):
             optimizer.step()  # Update Weights
 
             total_loss += loss.item() * batch_size
-            total_correct += get_num_correct(preds, labels)
+            total_correct += util.get_num_correct(preds, labels)
 
-        tb.add_scalar('Loss', total_loss, epoch)
-        tb.add_scalar('Number Correct', total_correct, epoch)
-        tb.add_scalar('Accuracy', total_correct / len(train_set), epoch)
+        if use_tensorboard:
+            util.add_scalars_to_tensorboard(tb, epoch, total_correct, total_loss, len(train_set))
+            util.add_histograms_to_tensorboard(network, tb, epoch)
 
-        for name, param in network.named_parameters():
-            tb.add_histogram(name, param, epoch)
-            tb.add_histogram(f'{name}.grad', param.grad, epoch)
+        util.print_training_results(epoch, total_correct, total_loss, len(train_set))
 
-        print(
-            "epoch:", epoch,
-            "total_correct:", total_correct,
-            "loss:", total_loss
-        )
+    torch.save(network.state_dict(), ".\\trained\\"+comment.strip()+" epochs="+str(epoch_length)+".pt")
 
-    print(total_correct / len(train_set))
-tb.close()
+if use_tensorboard:
+    tb.close()
