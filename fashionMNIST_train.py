@@ -22,15 +22,16 @@ train_set = torchvision.datasets.FashionMNIST(
     ])
 )
 
-# batch_size_list = [10, 100, 1000]
-# lr_list = [.01, .001]
-# shuffle_list = [True, False]
+batch_size_list = [10, 100, 1000]
+lr_list = [.01, .001]
+shuffle_list = [True, False]
 
-use_tensorboard = False
+# batch_size_list = [10]
+# lr_list = [.001]
+# shuffle_list = [True]
 
-batch_size_list = [10]
-lr_list = [.001]
-shuffle_list = [True]
+use_tensorboard = True
+
 epoch_length = 10
 
 param_values = util.get_hyperparams_values(lr_list, batch_size_list, shuffle_list)
@@ -39,7 +40,7 @@ param_values = util.get_hyperparams_values(lr_list, batch_size_list, shuffle_lis
 
 for lr, batch_size, shuffle in product(*param_values):
 
-    network = networkClass.Network()
+    network = networkClass.NetTest()
     #network.to(device)
     #torch.backends.cudnn.benchmark=True
     train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
