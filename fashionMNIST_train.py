@@ -22,17 +22,18 @@ train_set = torchvision.datasets.FashionMNIST(
     ])
 )
 
-batch_size_list = [10, 100, 1000]
+#batch_size_list = [10, 100, 1000]
+batch_size_list = [10]
 lr_list = [.01, .001]
 shuffle_list = [True, False]
 
 # batch_size_list = [10]
 # lr_list = [.001]
-# shuffle_list = [True]
+# shuffle_list = [True, False]
 
 use_tensorboard = True
 
-epoch_length = 10
+epoch_length = 15
 
 param_values = util.get_hyperparams_values(lr_list, batch_size_list, shuffle_list)
 
